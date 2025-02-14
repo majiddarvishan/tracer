@@ -1,5 +1,40 @@
+/* General styles */
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
     background-color: #f5f5f5;
+  }
+
+  /* Flex container to take up remaining space */
+  .flex-grow-1 {
+    flex: 1;
+  }
+
+  /* Footer styling */
+  .footer {
+    margin-top: auto;
+    width: 100%;
+  }
+
+  /* Additional styles */
+  .sidebar {
+    border-radius: 8px;
+  }
+
+  .sidebar .nav-link {
+    font-size: 1.1rem;
+  }
+
+  .sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  .sidebar .nav-link i {
+    font-size: 1.2rem;
   }
 
   .container {
