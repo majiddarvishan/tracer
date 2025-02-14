@@ -10,9 +10,10 @@ const Trace = () => {
 
   const [inputValue, setInputValue] = useState('');
   const [show, setShow] = useState(false);
+  const [webSocketAddress, setWebSocketAddress] = useState('');
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    setWebSocketAddress(e.target.value);
   };
 
   const handleAddRule = () => {
@@ -33,20 +34,26 @@ const Trace = () => {
     setRules(updatedRules);
   };
 
+  const handleConnect = () => {
+    // Placeholder for WebSocket connection logic
+    console.log('Connecting to WebSocket address:', webSocketAddress);
+  };
+
   return (
     <div className="mt-3">
       <div className="card shadow-sm">
         <div className="card-body">
-          <h2 className="card-title mb-4">User Information</h2>
-
-          <div className="mb-4">
+          <div className="mb-4 d-flex align-items-center">
             <input
               type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter rule"
-              value={inputValue}
+              className="form-control form-control-lg me-2"
+              placeholder="Enter WebSocket address"
+              value={webSocketAddress}
               onChange={handleInputChange}
             />
+            <button className="btn btn-primary btn-lg" onClick={handleConnect}>
+              Connect
+            </button>
           </div>
 
           <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -159,7 +166,7 @@ const Trace = () => {
             className="form-control form-control-lg"
             placeholder="Enter rule"
             value={inputValue}
-            onChange={handleInputChange}
+            onChange={(e) => setInputValue(e.target.value)}
           />
         </Modal.Body>
         <Modal.Footer>
