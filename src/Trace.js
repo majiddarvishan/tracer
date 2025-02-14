@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 const Trace = () => {
-  const [data, setData] = useState([
-    { id: 1, name: 'Alice Johnson', age: 28 },
-    { id: 2, name: 'Bob Smith', age: 34 },
-    { id: 3, name: 'Charlie Brown', age: 22 },
+  const [rules, setRules] = useState([
+    { id: 1, rule: 'Rule 1' },
+    { id: 2, rule: 'Rule 2' },
+    { id: 3, rule: 'Rule 3' },
   ]);
 
   const [inputValue, setInputValue] = useState('');
@@ -13,14 +13,13 @@ const Trace = () => {
     setInputValue(e.target.value);
   };
 
-  const handleAddUser = () => {
-    const newUser = {
-      id: data.length + 1,
-      name: inputValue,
-      age: Math.floor(Math.random() * 30) + 20,
+  const handleAddRule = () => {
+    const newRule = {
+      id: rules.length + 1,
+      rule: inputValue,
     };
-    setData([...data, newUser]);
-    setInputValue('');
+    setRules([...rules, newRule]);
+    setInputValue(''); // Clear the input field
   };
 
   return (
@@ -28,17 +27,15 @@ const Trace = () => {
       <div className="card shadow-sm">
         <div className="card-body">
           <h2 className="card-title mb-4">User Information</h2>
+
           <div className="mb-4">
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter name"
+              placeholder="Enter rule"
               value={inputValue}
               onChange={handleInputChange}
             />
-            <button className="btn btn-primary btn-lg mt-3" onClick={handleAddUser}>
-              <i className="bi bi-plus-circle me-1"></i>Add User
-            </button>
           </div>
 
           <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -78,6 +75,9 @@ const Trace = () => {
               role="tabpanel"
               aria-labelledby="rules-tab"
             >
+              <button className="btn btn-primary btn-lg mb-3" onClick={handleAddRule}>
+                <i className="bi bi-plus-circle me-1"></i>Add Rule
+              </button>
               <table className="table table-bordered mt-3">
                 <thead className="table-dark">
                   <tr>
@@ -86,18 +86,12 @@ const Trace = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Rule 1</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Rule 2</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Rule 3</td>
-                  </tr>
+                  {rules.map((rule) => (
+                    <tr key={rule.id}>
+                      <td>{rule.id}</td>
+                      <td>{rule.rule}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
