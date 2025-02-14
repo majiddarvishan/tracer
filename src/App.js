@@ -12,19 +12,15 @@ function App() {
     <Router>
       <div className="d-flex flex-column min-vh-100">
         <Navbar />
-        <div className="container-fluid mt-4 flex-grow-1">
-          <div className="row">
-            <div className="col-md-3">
-              <Sidebar />
-            </div>
-            <div className="col-md-9">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/trace" element={<Trace />} />
-                <Route path="/config" element={<Config />} />
-              </Routes>
-            </div>
+        <div className="d-flex flex-grow-1">
+          <Sidebar />
+          <div className="container-fluid mt-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/trace" element={<Trace />} />
+              <Route path="/config" element={<Config />} />
+            </Routes>
           </div>
         </div>
         <Footer />

@@ -1,0 +1,64 @@
+// Import Bootstrap variables
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+// Custom Theme Variables
+$primary: #0d6efd;
+$secondary: #6c757d;
+$success: #198754;
+$info: #0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #212529;
+
+$body-bg: #ffffff;
+$body-color: $dark;
+
+// Custom Font
+$font-family-base: 'Roboto', sans-serif;
+
+// Custom Components
+$navbar-bg: $primary;
+$navbar-light-active-color: $light;
+
+$btn-primary-bg: $primary;
+$btn-primary-border: $primary;
+
+$card-border-radius: 8px;
+$card-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+// Import Bootstrap to apply the custom variables
+@import '~bootstrap/scss/bootstrap';
+
+// Custom Styles
+body {
+  background-color: $body-bg;
+  color: $body-color;
+  font-family: $font-family-base;
+}
+
+.navbar {
+  background-color: $navbar-bg;
+  .navbar-brand, .navbar-nav .nav-link {
+    color: $light;
+    &:hover {
+      color: $light;
+      opacity: 0.8;
+    }
+  }
+}
+
+.card {
+  border-radius: $card-border-radius;
+  box-shadow: $card-box-shadow;
+}
+
+.btn-primary {
+  background-color: $btn-primary-bg;
+  border-color: $btn-primary-border;
+  &:hover {
+    background-color: darken($btn-primary-bg, 10%);
+    border-color: darken($btn-primary-border, 10%);
+  }
+}

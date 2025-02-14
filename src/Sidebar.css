@@ -1,17 +1,27 @@
 .sidebar {
-    border-radius: 8px;
+    width: 200px; /* Fixed width */
+    background-color: #f8f9fa; /* Background color */
+    position: fixed; /* Fix the sidebar to the left of the screen */
+    height: 100%; /* Full height */
+    top: 0;
+    left: 0;
+    padding-top: 20px; /* Space for the top of the sidebar */
   }
 
-  .sidebar .nav-link {
-    font-size: 1.1rem;
+  .main-content {
+    margin-left: 200px; /* Leave space for the sidebar */
   }
 
-  .sidebar .nav-link:hover {
+  .nav-link {
+    white-space: nowrap; /* Prevent text wrap */
+  }
+
+  .nav-link:hover {
     background-color: #e9ecef;
     border-radius: 5px;
     text-decoration: none;
   }
 
-  .sidebar .nav-link i {
-    font-size: 1.2rem;
+  .nav-link i {
+    font-size: 1.2rem; /* Adjust icon size */
   }
