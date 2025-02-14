@@ -41,21 +41,23 @@ const Trace = () => {
 
   return (
     <div className="mt-3">
+      <div className="card shadow-sm mb-4">
+        <div className="card-body d-flex align-items-center">
+          <input
+            type="text"
+            className="form-control form-control-lg me-2"
+            placeholder="Enter WebSocket address"
+            value={webSocketAddress}
+            onChange={handleInputChange}
+          />
+          <button className="btn btn-primary btn-lg" onClick={handleConnect}>
+            Connect
+          </button>
+        </div>
+      </div>
+
       <div className="card shadow-sm">
         <div className="card-body">
-          <div className="mb-4 d-flex align-items-center">
-            <input
-              type="text"
-              className="form-control form-control-lg me-2"
-              placeholder="Enter WebSocket address"
-              value={webSocketAddress}
-              onChange={handleInputChange}
-            />
-            <button className="btn btn-primary btn-lg" onClick={handleConnect}>
-              Connect
-            </button>
-          </div>
-
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
               <button
