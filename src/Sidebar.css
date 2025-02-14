@@ -1,0 +1,17 @@
+.sidebar {
+    border-radius: 8px;
+  }
+
+  .sidebar .nav-link {
+    font-size: 1.1rem;
+  }
+
+  .sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  .sidebar .nav-link i {
+    font-size: 1.2rem;
+  }
