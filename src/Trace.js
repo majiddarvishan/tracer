@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
 const Trace = () => {
   const [rules, setRules] = useState([
@@ -8,6 +9,7 @@ const Trace = () => {
   ]);
 
   const [inputValue, setInputValue] = useState('');
+  const [show, setShow] = useState(false);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -19,7 +21,16 @@ const Trace = () => {
       rule: inputValue,
     };
     setRules([...rules, newRule]);
-    setInputValue(''); // Clear the input field
+    setInputValue('');
+    setShow(false); // Close the modal
+  };
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  const handleDeleteRule = (id) => {
+    const updatedRules = rules.filter((rule) => rule.id !== id);
+    setRules(updatedRules);
   };
 
   return (
@@ -75,14 +86,15 @@ const Trace = () => {
               role="tabpanel"
               aria-labelledby="rules-tab"
             >
-              <button className="btn btn-primary btn-lg mb-3" onClick={handleAddRule}>
+              <Button variant="primary" className="mb-3" onClick={handleShow}>
                 <i className="bi bi-plus-circle me-1"></i>Add Rule
-              </button>
+              </Button>
               <table className="table table-bordered mt-3">
                 <thead className="table-dark">
                   <tr>
                     <th>ID</th>
                     <th>Rule</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -90,6 +102,14 @@ const Trace = () => {
                     <tr key={rule.id}>
                       <td>{rule.id}</td>
                       <td>{rule.rule}</td>
+                      <td>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleDeleteRule(rule.id)}
+                        >
+                          <i className="bi bi-trash"></i>
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -127,6 +147,30 @@ const Trace = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal for Adding Rule */}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Rule</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <input
+            type="text"
+            className="form-control form-control-lg"
+            placeholder="Enter rule"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleAddRule}>
+            Save Rule
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
