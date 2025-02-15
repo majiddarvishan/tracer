@@ -14,9 +14,9 @@ function App() {
     <Router>
       <div className="d-flex flex-column min-vh-100">
         <Navbar />
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1" style={{ marginTop: '56px', marginBottom: '56px' }}>
           <Sidebar />
-          <div className="main-content container-fluid p-4">
+          <div className="main-content p-4 w-100">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />

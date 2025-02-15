@@ -13,8 +13,6 @@
 
   .main-content {
     margin-left: 200px; /* Leave space for the sidebar */
-    margin-top: 56px; /* Offset by the height of the navbar */
-    margin-bottom: 56px; /* Offset by the height of the footer */
   }
 
   .nav-link {
