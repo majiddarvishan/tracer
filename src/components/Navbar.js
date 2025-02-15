@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../assets/css/Navbar.css'; // Updated import path
+import { Home, Search, Settings } from 'lucide-react'; // Import icons from lucide-react
+import '../assets/css/Navbar.css'; // Import the navbar CSS
 
 const Navbar = () => {
   return (
@@ -24,17 +25,17 @@ const Navbar = () => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link className="nav-link" to="/home">
-                Home
+                <Home className="me-2" /> Home
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/trace">
-                Trace
+                <Search className="me-2" /> Trace
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/config">
-                Config
+                <Settings className="me-2" /> Config
               </Link>
             </li>
           </ul>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import '../assets/css/Trace.css'; 
+import { PlusCircle, Trash, MessageSquare } from 'lucide-react'; // Import icons from lucide-react
+import '../assets/css/Trace.css';
 
 const Trace = () => {
   const [rules, setRules] = useState([
@@ -86,7 +87,7 @@ const Trace = () => {
                   aria-controls="messages"
                   aria-selected="false"
                 >
-                  Messages
+                  <MessageSquare className="me-1" /> Messages
                 </button>
               </li>
             </ul>
