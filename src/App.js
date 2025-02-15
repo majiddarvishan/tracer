@@ -6,6 +6,8 @@ import Home from './Home';
 import Trace from './Trace';
 import Config from './Config';
 import Footer from './Footer';
+import './Navbar.css'; // Import the navbar CSS
+import './Footer.css'; // Import the footer CSS
 
 function App() {
   return (
@@ -14,7 +16,7 @@ function App() {
         <Navbar />
         <div className="d-flex flex-grow-1">
           <Sidebar />
-          <div className="main-content container-fluid mt-4">
+          <div className="main-content container-fluid p-4">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
