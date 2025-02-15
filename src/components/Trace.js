@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { PlusCircle, Trash, MessageSquare } from "lucide-react"; // Import icons from lucide-react
+import { PlusCircle, Trash, MessageSquare, ListChecks } from "lucide-react"; // Import icons from lucide-react
 import "../assets/css/Trace.css";
 
 const Trace = () => {
@@ -73,7 +73,7 @@ const Trace = () => {
                   aria-controls="rules"
                   aria-selected="true"
                 >
-                  Rules
+                  <ListChecks className="me-1" /> Rules
                 </button>
               </li>
               <li className="nav-item" role="presentation">
@@ -99,7 +99,7 @@ const Trace = () => {
                 aria-labelledby="rules-tab"
               >
                 <Button variant="primary" className="mb-3" onClick={handleShow}>
-                  <i className="bi bi-plus-circle me-1"></i>Add Rule
+                  <PlusCircle className="me-1" /> Add Rule
                 </Button>
                 <table className="table table-bordered mt-3">
                   <thead className="table-dark">
@@ -120,7 +120,7 @@ const Trace = () => {
                             size="icon"
                             onClick={() => handleDeleteRule(rule.id)}
                           >
-                            <i className="bi bi-trash"></i>
+                            <Trash />
                           </Button>
                         </td>
                       </tr>
