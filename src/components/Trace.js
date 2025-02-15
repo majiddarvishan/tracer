@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import './Trace.css'; // Import the CSS file for Trace component
+import '../assets/css/Trace.css'; 
 
 const Trace = () => {
   const [rules, setRules] = useState([

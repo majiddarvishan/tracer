@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Sidebar.css';
+import '../assets/css/Sidebar.css'; // Updated import path
 
 const Sidebar = () => {
   return (
     <div className="sidebar bg-light p-3 shadow-sm">
-      <h4 className="mb-4">Menu</h4>
       <ul className="nav flex-column">
         <li className="nav-item mb-2">
           <Link className="nav-link text-dark" to="/home">

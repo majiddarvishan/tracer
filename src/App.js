@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
-import Home from './Home';
-import Trace from './Trace';
-import Config from './Config';
-import Footer from './Footer';
-import './Navbar.css'; // Import the navbar CSS
-import './Footer.css'; // Import the footer CSS
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import Home from './components/Home';
+import Trace from './components/Trace';
+import Config from './components/Config';
+import Footer from './components/Footer';
+import './assets/css/Navbar.css'; // Import the navbar CSS
+import './assets/css/Footer.css'; // Import the footer CSS
 
 function App() {
   return (
