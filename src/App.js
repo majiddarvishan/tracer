@@ -14,7 +14,7 @@ function App() {
     <Router>
       <div className="d-flex flex-column min-vh-100">
         <Navbar />
-        <div className="d-flex flex-grow-1" style={{ marginTop: '56px', marginBottom: '56px' }}>
+        <div className="d-flex flex-grow-1">
           <Sidebar />
           <div className="main-content p-4 w-100">
             <Routes>

@@ -1,5 +1,6 @@
 .trace-container {
     padding: 0 20px; /* Adjust padding to remove unused space */
+    margin-top: 0; /* Eliminate gap between navbar and content */
   }
 
   .card {
