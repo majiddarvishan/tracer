@@ -1,15 +1,19 @@
 .sidebar {
     width: 200px; /* Fixed width */
     background-color: #f8f9fa; /* Background color */
+    border-radius: 8px;
     position: fixed; /* Fix the sidebar to the left of the screen */
-    height: 100%; /* Full height */
-    top: 0;
+    top: 56px; /* Offset by the height of the navbar */
     left: 0;
+    height: calc(100vh - 56px - 56px); /* Full height minus navbar and footer height */
     padding-top: 20px; /* Space for the top of the sidebar */
+    z-index: 1; /* Ensure it stays on top */
   }
 
   .main-content {
     margin-left: 200px; /* Leave space for the sidebar */
+    margin-top: 56px; /* Offset by the height of the navbar */
+    padding-bottom: 56px; /* Space for the footer */
   }
 
   .nav-link {

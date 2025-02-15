@@ -14,7 +14,7 @@ function App() {
         <Navbar />
         <div className="d-flex flex-grow-1">
           <Sidebar />
-          <div className="container-fluid mt-4">
+          <div className="main-content container-fluid mt-4">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
