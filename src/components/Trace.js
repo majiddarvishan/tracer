@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { PlusCircle, Trash, MessageSquare } from 'lucide-react'; // Import icons from lucide-react
-import '../assets/css/Trace.css';
+import React, { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
+import { PlusCircle, Trash, MessageSquare } from "lucide-react"; // Import icons from lucide-react
+import "../assets/css/Trace.css";
 
 const Trace = () => {
   const [rules, setRules] = useState([
-    { id: 1, rule: 'Rule 1' },
-    { id: 2, rule: 'Rule 2' },
-    { id: 3, rule: 'Rule 3' },
+    { id: 1, rule: "Rule 1" },
+    { id: 2, rule: "Rule 2" },
+    { id: 3, rule: "Rule 3" },
   ]);
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [show, setShow] = useState(false);
-  const [webSocketAddress, setWebSocketAddress] = useState('');
+  const [webSocketAddress, setWebSocketAddress] = useState("");
 
   const handleInputChange = (e) => {
     setWebSocketAddress(e.target.value);
@@ -24,7 +24,7 @@ const Trace = () => {
       rule: inputValue,
     };
     setRules([...rules, newRule]);
-    setInputValue('');
+    setInputValue("");
     setShow(false); // Close the modal
   };
 
@@ -38,7 +38,7 @@ const Trace = () => {
 
   const handleConnect = () => {
     // Placeholder for WebSocket connection logic
-    console.log('Connecting to WebSocket address:', webSocketAddress);
+    console.log("Connecting to WebSocket address:", webSocketAddress);
   };
 
   return (
@@ -117,6 +117,7 @@ const Trace = () => {
                         <td>
                           <Button
                             variant="danger"
+                            size="icon"
                             onClick={() => handleDeleteRule(rule.id)}
                           >
                             <i className="bi bi-trash"></i>
