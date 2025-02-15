@@ -13,6 +13,10 @@
 
   .main-content {
     margin-left: 200px; /* Leave space for the sidebar */
+    margin-top: 0; /* No offset needed here */
+    margin-bottom: 0; /* No offset needed here */
+    flex-grow: 1; /* Ensure the main content takes up the remaining space */
+    width: calc(100% - 200px); /* Ensure the main content fills the remaining width */
   }
 
   .nav-link {
