@@ -18,17 +18,42 @@
   }
 
   .table {
-    width: 100%; /* Full width for table */
-    margin-bottom: 1rem; /* Add space below table */
-    background-color: #fff; /* Table background color */
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: #ffffff; /* White background */
+    border-collapse: collapse; /* Merge borders */
+    border: 1px solid #e5e5e5; /* Light gray border */
+    font-family: 'Arial', sans-serif;
   }
 
   .table thead th {
-    border-bottom: 2px solid #dee2e6; /* Table header bottom border */
+    background-color: #f3f3f3; /* Light gray header background */
+    color: #333333; /* Dark text */
+    border: 1px solid #e5e5e5; /* Light gray border */
+    padding: 12px; /* Padding inside cells */
+    text-align: left; /* Align text to left */
+    font-weight: bold;
   }
 
-  .table tbody tr {
-    border-bottom: 1px solid #dee2e6; /* Table row bottom border */
+  .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Even rows light gray background */
+  }
+
+  .table tbody tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+  }
+
+  .table tbody td {
+    border: 1px solid #e5e5e5; /* Light gray border */
+    padding: 12px; /* Padding inside cells */
+    text-align: left; /* Align text to left */
+    color: #333333; /* Dark text */
+  }
+
+  .table .btn {
+    margin: 0;
+    padding: 6px 12px; /* Adjust button padding */
+    font-size: 14px; /* Adjust font size */
   }
 
   .btn-primary {

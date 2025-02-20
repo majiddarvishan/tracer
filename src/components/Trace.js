@@ -101,8 +101,8 @@ const Trace = () => {
                 <Button variant="primary" className="mb-3" onClick={handleShow}>
                   <PlusCircle className="me-1" /> Add Rule
                 </Button>
-                <table className="table table-bordered mt-3">
-                  <thead className="table-dark">
+                <table className="table mt-3">
+                  <thead>
                     <tr>
                       <th>ID</th>
                       <th>Rule</th>
@@ -134,8 +134,8 @@ const Trace = () => {
                 role="tabpanel"
                 aria-labelledby="messages-tab"
               >
-                <table className="table table-bordered mt-3">
-                  <thead className="table-dark">
+                <table className="table mt-3">
+                  <thead>
                     <tr>
                       <th>ID</th>
                       <th>Message</th>
