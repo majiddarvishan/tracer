@@ -11,8 +11,7 @@ const Trace = () => {
     { id: 3, message: "Message 3" },
   ]);
 
-  const [inputValue, setInputValue] = useState("");
-  const [messageType, setMessageType] = useState("AO");
+  const [messageType, setMessageType] = useState("");
   const [sourceAddress, setSourceAddress] = useState("");
   const [destinationAddress, setDestinationAddress] = useState("");
   const [sourceClientId, setSourceClientId] = useState("");
@@ -25,11 +24,10 @@ const Trace = () => {
   };
 
   const handleAddRule = () => {
-    if (!inputValue.trim() || !sourceAddress || !destinationAddress || !sourceClientId || !destinationClientId) return;
+    if (!messageType) return;
 
     const newRule = {
       id: rules.length + 1,
-      rule: inputValue,
       messageType,
       sourceAddress,
       destinationAddress,
@@ -38,8 +36,7 @@ const Trace = () => {
     };
 
     setRules([...rules, newRule]);
-    setInputValue("");
-    setMessageType("AO");
+    setMessageType("");
     setSourceAddress("");
     setDestinationAddress("");
     setSourceClientId("");
@@ -98,13 +95,11 @@ const Trace = () => {
                   <PlusCircle className="me-1" /> Add Rule
                 </Button>
 
-                {/* Modern Styled Table */}
                 <div className="table-responsive">
                   <table className="table modern-table">
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Rule</th>
                         <th>Message Type</th>
                         <th>Source Address</th>
                         <th>Destination Address</th>
@@ -118,17 +113,16 @@ const Trace = () => {
                         rules.map((rule) => (
                           <tr key={rule.id}>
                             <td>{rule.id}</td>
-                            <td>{rule.rule}</td>
                             <td>
                               <span className={`badge ${rule.messageType === "AO" ? "bg-primary" :
                                 rule.messageType === "DR" ? "bg-warning" : "bg-danger"}`}>
                                 {rule.messageType}
                               </span>
                             </td>
-                            <td>{rule.sourceAddress}</td>
-                            <td>{rule.destinationAddress}</td>
-                            <td>{rule.sourceClientId}</td>
-                            <td>{rule.destinationClientId}</td>
+                            <td>{rule.sourceAddress || "-"}</td>
+                            <td>{rule.destinationAddress || "-"}</td>
+                            <td>{rule.sourceClientId || "-"}</td>
+                            <td>{rule.destinationClientId || "-"}</td>
                             <td className="text-center">
                               <Button variant="outline-danger" size="sm" onClick={() => handleDeleteRule(rule.id)}>
                                 <Trash size={16} /> Delete
@@ -138,7 +132,7 @@ const Trace = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="8" className="text-center text-muted">
+                          <td colSpan="7" className="text-center text-muted">
                             No rules added yet.
                           </td>
                         </tr>
@@ -186,16 +180,20 @@ const Trace = () => {
             <Modal.Title>Add Rule</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <input type="text" className="form-control mb-2" placeholder="Enter rule" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-            <Form.Select className="mb-2" value={messageType} onChange={(e) => setMessageType(e.target.value)}>
+            <Form.Select className="mb-2" value={messageType} onChange={(e) => setMessageType(e.target.value)} required>
+              <option value="">Select Message Type</option>
               <option value="AO">AO</option>
               <option value="DR">DR</option>
               <option value="AT">AT</option>
             </Form.Select>
+            <input type="text" className="form-control mb-2" placeholder="Source Address (Optional)" value={sourceAddress} onChange={(e) => setSourceAddress(e.target.value)} />
+            <input type="text" className="form-control mb-2" placeholder="Destination Address (Optional)" value={destinationAddress} onChange={(e) => setDestinationAddress(e.target.value)} />
+            <input type="text" className="form-control mb-2" placeholder="Source Client ID (Optional)" value={sourceClientId} onChange={(e) => setSourceClientId(e.target.value)} />
+            <input type="text" className="form-control mb-2" placeholder="Destination Client ID (Optional)" value={destinationClientId} onChange={(e) => setDestinationClientId(e.target.value)} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>Close</Button>
-            <Button variant="primary" onClick={handleAddRule}>Save Rule</Button>
+            <Button variant="primary" onClick={handleAddRule} disabled={!messageType}>Save Rule</Button>
           </Modal.Footer>
         </Modal>
       </div>
