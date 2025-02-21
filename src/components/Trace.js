@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MessageSquare, ListChecks } from "lucide-react";
 import Rules from "./Rules";
 import Messages from "./Messages";
-import "../assets/css/Trace.css";
+import "../assets/css/Trace.css"; // Add custom styles in this file
 
 const Trace = () => {
   const [webSocket, setWebSocket] = useState(null);
@@ -74,7 +74,7 @@ const Trace = () => {
               disabled={isConnected}
             />
             <button
-              className="btn btn-primary btn-lg"
+              className={`btn btn-lg ${isConnected ? "btn-danger" : "btn-primary"}`}
               onClick={isConnected ? handleDisconnect : handleConnect}
             >
               {isConnected ? "Disconnect" : "Connect"}
