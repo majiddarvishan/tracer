@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import { PlusCircle, Trash, MessageSquare, ListChecks } from "lucide-react";
 import "../assets/css/Trace.css";
 
 const Trace = () => {
-  const [rules, setRules] = useState([
-    { id: 1, rule: "Rule 1" },
-    { id: 2, rule: "Rule 2" },
-    { id: 3, rule: "Rule 3" },
-  ]);
-
+  const [rules, setRules] = useState([]); // No predefined values
   const [messages] = useState([
     { id: 1, message: "Message 1" },
     { id: 2, message: "Message 2" },
@@ -17,6 +12,11 @@ const Trace = () => {
   ]);
 
   const [inputValue, setInputValue] = useState("");
+  const [messageType, setMessageType] = useState("AO");
+  const [sourceAddress, setSourceAddress] = useState("");
+  const [destinationAddress, setDestinationAddress] = useState("");
+  const [sourceClientId, setSourceClientId] = useState("");
+  const [destinationClientId, setDestinationClientId] = useState("");
   const [show, setShow] = useState(false);
   const [webSocketAddress, setWebSocketAddress] = useState("");
 
@@ -25,13 +25,25 @@ const Trace = () => {
   };
 
   const handleAddRule = () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || !sourceAddress || !destinationAddress || !sourceClientId || !destinationClientId) return;
+
     const newRule = {
       id: rules.length + 1,
       rule: inputValue,
+      messageType,
+      sourceAddress,
+      destinationAddress,
+      sourceClientId,
+      destinationClientId,
     };
+
     setRules([...rules, newRule]);
     setInputValue("");
+    setMessageType("AO");
+    setSourceAddress("");
+    setDestinationAddress("");
+    setSourceClientId("");
+    setDestinationClientId("");
     setShow(false);
   };
 
@@ -93,6 +105,11 @@ const Trace = () => {
                       <tr>
                         <th>ID</th>
                         <th>Rule</th>
+                        <th>Message Type</th>
+                        <th>Source Address</th>
+                        <th>Destination Address</th>
+                        <th>Source Client ID</th>
+                        <th>Destination Client ID</th>
                         <th className="text-center">Action</th>
                       </tr>
                     </thead>
@@ -102,6 +119,16 @@ const Trace = () => {
                           <tr key={rule.id}>
                             <td>{rule.id}</td>
                             <td>{rule.rule}</td>
+                            <td>
+                              <span className={`badge ${rule.messageType === "AO" ? "bg-primary" :
+                                rule.messageType === "DR" ? "bg-warning" : "bg-danger"}`}>
+                                {rule.messageType}
+                              </span>
+                            </td>
+                            <td>{rule.sourceAddress}</td>
+                            <td>{rule.destinationAddress}</td>
+                            <td>{rule.sourceClientId}</td>
+                            <td>{rule.destinationClientId}</td>
                             <td className="text-center">
                               <Button variant="outline-danger" size="sm" onClick={() => handleDeleteRule(rule.id)}>
                                 <Trash size={16} /> Delete
@@ -111,7 +138,7 @@ const Trace = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="3" className="text-center text-muted">
+                          <td colSpan="8" className="text-center text-muted">
                             No rules added yet.
                           </td>
                         </tr>
@@ -123,7 +150,7 @@ const Trace = () => {
             </div>
           </div>
 
-          {/* Messages Tab (Styled Identically) */}
+          {/* Messages Tab (Restored) */}
           <div className="tab-pane fade" id="messages">
             <div className="card shadow-lg table-card">
               <div className="card-header bg-secondary text-white">
@@ -159,21 +186,16 @@ const Trace = () => {
             <Modal.Title>Add Rule</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter rule"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
+            <input type="text" className="form-control mb-2" placeholder="Enter rule" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+            <Form.Select className="mb-2" value={messageType} onChange={(e) => setMessageType(e.target.value)}>
+              <option value="AO">AO</option>
+              <option value="DR">DR</option>
+              <option value="AT">AT</option>
+            </Form.Select>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleAddRule}>
-              Save Rule
-            </Button>
+            <Button variant="secondary" onClick={handleClose}>Close</Button>
+            <Button variant="primary" onClick={handleAddRule}>Save Rule</Button>
           </Modal.Footer>
         </Modal>
       </div>
