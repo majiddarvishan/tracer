@@ -1,75 +1,66 @@
 .trace-container {
-    padding: 0 20px; /* Adjust padding to remove unused space */
-    margin-top: 0; /* Eliminate gap between navbar and content */
+    padding: 20px;
+    background-color: #f8f9fa;
   }
 
-  .card {
-    margin-bottom: 20px; /* Add space between cards */
+  /* Modern Table Card */
+  .table-card {
+    border-radius: 12px;
+    overflow: hidden;
   }
 
-  .nav-tabs .nav-link {
-    color: #495057; /* Text color */
+  /* Card Headers */
+  .card-header {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
   }
 
-  .nav-tabs .nav-link.active {
-    color: #0d6efd; /* Active tab text color */
-    background-color: #e9ecef; /* Active tab background color */
-    border-color: #dee2e6 #dee2e6 #fff; /* Active tab border color */
-  }
-
-  .table {
+  /* Stylish Table */
+  .modern-table {
     width: 100%;
     margin-bottom: 1rem;
-    background-color: #ffffff; /* White background */
-    border-collapse: collapse; /* Merge borders */
-    border: 1px solid #e5e5e5; /* Light gray border */
-    font-family: 'Arial', sans-serif;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
   }
 
-  .table thead th {
-    background-color: #f3f3f3; /* Light gray header background */
-    color: #333333; /* Dark text */
-    border: 1px solid #e5e5e5; /* Light gray border */
-    padding: 12px; /* Padding inside cells */
-    text-align: left; /* Align text to left */
-    font-weight: bold;
+  .modern-table thead {
+    background-color: #007bff;
+    color: white;
   }
 
-  .table tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Even rows light gray background */
+  .modern-table th,
+  .modern-table td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
   }
 
-  .table tbody tr:hover {
-    background-color: #f1f1f1; /* Hover effect */
+  .modern-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
   }
 
-  .table tbody td {
-    border: 1px solid #e5e5e5; /* Light gray border */
-    padding: 12px; /* Padding inside cells */
-    text-align: left; /* Align text to left */
-    color: #333333; /* Dark text */
+  .modern-table tbody tr:hover {
+    background-color: #e9ecef;
   }
 
-  .table .btn {
-    margin: 0;
-    padding: 6px 12px; /* Adjust button padding */
-    font-size: 14px; /* Adjust font size */
+  /* Secondary Color for Messages Table */
+  .card-header.bg-secondary {
+    background-color: #6c757d !important;
   }
 
-  .btn-primary {
-    background-color: #0d6efd; /* Primary button background color */
-    border-color: #0d6efd; /* Primary button border color */
+  /* Button Styling */
+  .btn-success {
+    background-color: #28a745;
   }
 
-  .btn-danger {
-    background-color: #dc3545; /* Danger button background color */
-    border-color: #dc3545; /* Danger button border color */
+  .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
   }
 
-  .modal-header {
-    border-bottom: 1px solid #dee2e6; /* Modal header bottom border */
-  }
-
-  .modal-footer {
-    border-top: 1px solid #dee2e6; /* Modal footer top border */
+  .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
   }
