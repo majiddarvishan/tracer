@@ -7,6 +7,7 @@ import "../assets/css/Trace.css";
 const Trace = () => {
   const [webSocket, setWebSocket] = useState(null);
   const [webSocketAddress, setWebSocketAddress] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
 
   const handleInputChange = (e) => {
     setWebSocketAddress(e.target.value);
@@ -23,6 +24,7 @@ const Trace = () => {
     ws.onopen = () => {
       console.log("Connected to WebSocket server");
       ws.send("Hello from client");
+      setIsConnected(true); // Set connection status to true
     };
 
     ws.onmessage = (event) => {
@@ -31,13 +33,22 @@ const Trace = () => {
 
     ws.onclose = () => {
       console.log("WebSocket connection closed");
+      setIsConnected(false); // Set connection status to false
     };
 
     ws.onerror = (error) => {
       console.error("WebSocket error:", error);
+      setIsConnected(false); // Set connection status to false
     };
 
     setWebSocket(ws);
+  };
+
+  const handleDisconnect = () => {
+    if (webSocket) {
+      webSocket.close();
+      setIsConnected(false); // Set connection status to false
+    }
   };
 
   useEffect(() => {
@@ -60,9 +71,13 @@ const Trace = () => {
               placeholder="Enter WebSocket address"
               value={webSocketAddress}
               onChange={handleInputChange}
+              disabled={isConnected}
             />
-            <button className="btn btn-primary btn-lg" onClick={handleConnect}>
-              Connect
+            <button
+              className="btn btn-primary btn-lg"
+              onClick={isConnected ? handleDisconnect : handleConnect}
+            >
+              {isConnected ? "Disconnect" : "Connect"}
             </button>
           </div>
         </div>
