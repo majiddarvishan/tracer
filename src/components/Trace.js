@@ -1,15 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MessageSquare, ListChecks } from "lucide-react";
-import Rules from "./Rules"; // Import Rules Component
-import Messages from "./Messages"; // Import Messages Component
+import Rules from "./Rules";
+import Messages from "./Messages";
 import "../assets/css/Trace.css";
 
 const Trace = () => {
+  const [webSocket, setWebSocket] = useState(null);
   const [webSocketAddress, setWebSocketAddress] = useState("");
 
   const handleInputChange = (e) => {
     setWebSocketAddress(e.target.value);
   };
+
+  const handleConnect = () => {
+    if (!webSocketAddress.trim()) {
+      alert("Please enter a WebSocket address.");
+      return;
+    }
+
+    const ws = new WebSocket(webSocketAddress);
+
+    ws.onopen = () => {
+      console.log("Connected to WebSocket server");
+      ws.send("Hello from client");
+    };
+
+    ws.onmessage = (event) => {
+      console.log("Message received:", event.data);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    setWebSocket(ws);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (webSocket) {
+        webSocket.close();
+      }
+    };
+  }, [webSocket]);
 
   return (
     <div className="trace-container">
@@ -24,7 +61,9 @@ const Trace = () => {
               value={webSocketAddress}
               onChange={handleInputChange}
             />
-            <button className="btn btn-primary btn-lg">Connect</button>
+            <button className="btn btn-primary btn-lg" onClick={handleConnect}>
+              Connect
+            </button>
           </div>
         </div>
 
