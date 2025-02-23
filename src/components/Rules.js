@@ -42,9 +42,6 @@ const Rules = ({ webSocket }) => {
 
   return (
     <div className="card shadow-lg table-card">
-      <div className="card-header bg-primary text-white">
-        <h5 className="mb-0">Rules List</h5>
-      </div>
       <div className="card-body">
         <Button variant="success" className="mb-3" onClick={() => setShow(true)}>
           <PlusCircle className="me-1" /> Add Rule

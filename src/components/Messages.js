@@ -3,9 +3,6 @@ import React from "react";
 const Messages = ({ messages }) => {
   return (
     <div className="card shadow-lg table-card">
-      <div className="card-header bg-secondary text-white">
-        <h5 className="mb-0">Messages</h5>
-      </div>
       <div className="card-body">
         <div className="table-responsive">
           <table className="table modern-table">
