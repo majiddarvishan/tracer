@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Home, Search, Settings } from 'lucide-react'; // Import icons from lucide-react
 import '../assets/css/Navbar.css'; // Import the navbar CSS
+import OMCIcon from '../assets/icons/omc-icon.png'; // Path to OMC icon
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          MyApp
+        <Link className="navbar-brand d-flex align-items-center" to="/">
+          <img src={OMCIcon} alt="OMC Logo" width="40" height="40" className="me-2" />
         </Link>
         <button
           className="navbar-toggler"
