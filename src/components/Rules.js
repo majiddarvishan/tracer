@@ -16,13 +16,20 @@ const Rules = ({ webSocket }) => {
 
     const newRule = {
       id: rules.length + 1, // Auto-increment ID
-      messageType,
-      sourceAddress,
-      destinationAddress,
-      sourceClientId,
-      destinationClientId,
+      message_type: messageType,
+      source_address: sourceAddress,
+      destination_address: destinationAddress,
+      source_client_id: sourceClientId,
+      destination_client_id: destinationClientId,
     };
 
+    // Create JSON structure
+    const jsonData = {
+      method: "add",
+      rule: newRule,
+    };
+
+    // Update UI with new rule
     setRules([...rules, newRule]);
     setMessageType("");
     setSourceAddress("");
@@ -33,8 +40,8 @@ const Rules = ({ webSocket }) => {
 
     // Send JSON to WebSocket if connected
     if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-      webSocket.send(JSON.stringify(newRule));
-      console.log("Sent to WebSocket:", JSON.stringify(newRule));
+      webSocket.send(JSON.stringify(jsonData));
+      console.log("Sent to WebSocket:", JSON.stringify(jsonData));
     } else {
       console.warn("WebSocket is not connected.");
     }
@@ -66,15 +73,15 @@ const Rules = ({ webSocket }) => {
                   <tr key={rule.id}>
                     <td>{rule.id}</td>
                     <td>
-                      <span className={`badge ${rule.messageType === "AO" ? "bg-primary" :
-                        rule.messageType === "DR" ? "bg-warning" : "bg-danger"}`}>
-                        {rule.messageType}
+                      <span className={`badge ${rule.message_type === "AO" ? "bg-primary" :
+                        rule.message_type === "DR" ? "bg-warning" : "bg-danger"}`}>
+                        {rule.message_type}
                       </span>
                     </td>
-                    <td>{rule.sourceAddress || "-"}</td>
-                    <td>{rule.destinationAddress || "-"}</td>
-                    <td>{rule.sourceClientId || "-"}</td>
-                    <td>{rule.destinationClientId || "-"}</td>
+                    <td>{rule.source_address || "-"}</td>
+                    <td>{rule.destination_address || "-"}</td>
+                    <td>{rule.source_client_id || "-"}</td>
+                    <td>{rule.destination_client_id || "-"}</td>
                     <td className="text-center">
                       <Button
                         variant="outline-danger"
