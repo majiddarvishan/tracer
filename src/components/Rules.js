@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { PlusCircle, Trash } from "lucide-react";
 
-const Rules = () => {
+const Rules = ({ webSocket }) => {
   const [rules, setRules] = useState([]);
   const [messageType, setMessageType] = useState("");
   const [sourceAddress, setSourceAddress] = useState("");
@@ -12,10 +12,10 @@ const Rules = () => {
   const [show, setShow] = useState(false);
 
   const handleAddRule = () => {
-    if (!messageType) return;
+    if (!messageType) return; // Message Type is mandatory
 
     const newRule = {
-      id: rules.length + 1,
+      id: rules.length + 1, // Auto-increment ID
       messageType,
       sourceAddress,
       destinationAddress,
@@ -30,13 +30,14 @@ const Rules = () => {
     setSourceClientId("");
     setDestinationClientId("");
     setShow(false);
-  };
 
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
-
-  const handleDeleteRule = (id) => {
-    setRules(rules.filter((rule) => rule.id !== id));
+    // Send JSON to WebSocket if connected
+    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+      webSocket.send(JSON.stringify(newRule));
+      console.log("Sent to WebSocket:", JSON.stringify(newRule));
+    } else {
+      console.warn("WebSocket is not connected.");
+    }
   };
 
   return (
@@ -45,7 +46,7 @@ const Rules = () => {
         <h5 className="mb-0">Rules List</h5>
       </div>
       <div className="card-body">
-        <Button variant="success" className="mb-3" onClick={handleShow}>
+        <Button variant="success" className="mb-3" onClick={() => setShow(true)}>
           <PlusCircle className="me-1" /> Add Rule
         </Button>
 
@@ -78,7 +79,11 @@ const Rules = () => {
                     <td>{rule.sourceClientId || "-"}</td>
                     <td>{rule.destinationClientId || "-"}</td>
                     <td className="text-center">
-                      <Button variant="outline-danger" size="sm" onClick={() => handleDeleteRule(rule.id)}>
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => setRules(rules.filter((r) => r.id !== rule.id))}
+                      >
                         <Trash size={16} /> Delete
                       </Button>
                     </td>
@@ -96,8 +101,8 @@ const Rules = () => {
         </div>
       </div>
 
-      {/* Add Rule Modal */}
-      <Modal show={show} onHide={handleClose} centered>
+      {/* Modal for Adding Rule */}
+      <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Add Rule</Modal.Title>
         </Modal.Header>
@@ -114,8 +119,12 @@ const Rules = () => {
           <input type="text" className="form-control mb-2" placeholder="Destination Client ID (Optional)" value={destinationClientId} onChange={(e) => setDestinationClientId(e.target.value)} />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>Close</Button>
-          <Button variant="primary" onClick={handleAddRule} disabled={!messageType}>Save Rule</Button>
+          <Button variant="secondary" onClick={() => setShow(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleAddRule} disabled={!messageType}>
+            Save Rule
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
