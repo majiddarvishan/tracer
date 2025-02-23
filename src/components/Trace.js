@@ -27,10 +27,17 @@ const Trace = () => {
 
     ws.onmessage = (event) => {
       console.log("Message received:", event.data);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { id: prevMessages.length + 1, message: event.data },
-      ]);
+
+      try {
+        const data = JSON.parse(event.data);
+
+        // Check if message method is "report"
+        if (data.method === "report" && data.message) {
+          setMessages((prevMessages) => [...prevMessages, data.message]);
+        }
+      } catch (error) {
+        console.error("Error parsing WebSocket message:", error);
+      }
     };
 
     ws.onclose = () => {
@@ -109,4 +116,3 @@ const Trace = () => {
 };
 
 export default Trace;
-    
