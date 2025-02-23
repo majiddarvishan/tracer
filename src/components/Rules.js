@@ -14,6 +14,7 @@ const Rules = ({ webSocket }) => {
   // Check if WebSocket is connected
   const isConnected = webSocket && webSocket.readyState === WebSocket.OPEN;
 
+  // Add Rule
   const handleAddRule = () => {
     if (!messageType) return; // Message Type is mandatory
 
@@ -45,6 +46,28 @@ const Rules = ({ webSocket }) => {
     if (isConnected) {
       webSocket.send(JSON.stringify(jsonData));
       console.log("Sent to WebSocket:", JSON.stringify(jsonData));
+    } else {
+      console.warn("WebSocket is not connected.");
+    }
+  };
+
+  // Delete Rule
+  const handleDeleteRule = (id) => {
+    // Create JSON for deletion
+    const deleteJson = {
+      method: "delete",
+      rule: {
+        id: id,
+      },
+    };
+
+    // Remove rule from UI
+    setRules(rules.filter((rule) => rule.id !== id));
+
+    // Send JSON to WebSocket if connected
+    if (isConnected) {
+      webSocket.send(JSON.stringify(deleteJson));
+      console.log("Sent to WebSocket:", JSON.stringify(deleteJson));
     } else {
       console.warn("WebSocket is not connected.");
     }
@@ -94,7 +117,7 @@ const Rules = ({ webSocket }) => {
                       <Button
                         variant="outline-danger"
                         size="sm"
-                        onClick={() => setRules(rules.filter((r) => r.id !== rule.id))}
+                        onClick={() => handleDeleteRule(rule.id)}
                         disabled={!isConnected} // Disable when WebSocket is disconnected
                       >
                         <Trash size={16} /> Delete
