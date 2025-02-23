@@ -11,6 +11,9 @@ const Rules = ({ webSocket }) => {
   const [destinationClientId, setDestinationClientId] = useState("");
   const [show, setShow] = useState(false);
 
+  // Check if WebSocket is connected
+  const isConnected = webSocket && webSocket.readyState === WebSocket.OPEN;
+
   const handleAddRule = () => {
     if (!messageType) return; // Message Type is mandatory
 
@@ -39,7 +42,7 @@ const Rules = ({ webSocket }) => {
     setShow(false);
 
     // Send JSON to WebSocket if connected
-    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+    if (isConnected) {
       webSocket.send(JSON.stringify(jsonData));
       console.log("Sent to WebSocket:", JSON.stringify(jsonData));
     } else {
@@ -50,7 +53,12 @@ const Rules = ({ webSocket }) => {
   return (
     <div className="card shadow-lg table-card">
       <div className="card-body">
-        <Button variant="success" className="mb-3" onClick={() => setShow(true)}>
+        <Button
+          variant="success"
+          className="mb-3"
+          onClick={() => setShow(true)}
+          disabled={!isConnected} // Disable when WebSocket is disconnected
+        >
           <PlusCircle className="me-1" /> Add Rule
         </Button>
 
@@ -87,6 +95,7 @@ const Rules = ({ webSocket }) => {
                         variant="outline-danger"
                         size="sm"
                         onClick={() => setRules(rules.filter((r) => r.id !== rule.id))}
+                        disabled={!isConnected} // Disable when WebSocket is disconnected
                       >
                         <Trash size={16} /> Delete
                       </Button>
@@ -126,7 +135,7 @@ const Rules = ({ webSocket }) => {
           <Button variant="secondary" onClick={() => setShow(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleAddRule} disabled={!messageType}>
+          <Button variant="primary" onClick={handleAddRule} disabled={!isConnected || !messageType}>
             Save Rule
           </Button>
         </Modal.Footer>
