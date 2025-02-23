@@ -1,6 +1,6 @@
 .sidebar {
     width: 200px; /* Fixed width */
-    background-color: #f8f9fa; /* Background color */
+    background-color: #f6f5f0; /* Background color */
     border-radius: 8px;
     position: fixed; /* Fix the sidebar to the left of the screen */
     top: 56px; /* Offset by the height of the navbar */
@@ -9,6 +9,7 @@
     height: calc(100vh - 112px); /* Full height minus navbar and footer height */
     padding-top: 20px; /* Space for the top of the sidebar */
     z-index: 1; /* Ensure it stays below the navbar and footer */
+    border-right: 2px solid #ccc; /* Add vertical line */
   }
 
   .main-content {
