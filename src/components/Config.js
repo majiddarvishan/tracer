@@ -1,38 +1,78 @@
-import React from 'react';
-import '../assets/css/Config.css';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+import ConfigSideBar from './ConfigSideBar';
+import Editor from './ConfigEditor';
 
-const Config = () => {
+function Config() {
+  const [appData, setAppData] = useState({
+    config: null,
+    schema: null,
+    config_hash: null,
+    modifiable_paths: {
+      insertable: [],
+      removable: [],
+      replaceable: [],
+    },
+  });
+
+  const [modification, setModification] = useState({
+    status: 'No change',
+    op: null,
+    path: null,
+    value: null,
+    index: null,
+  });
+
+  const handleEditorChange = (updated_config) => {
+    if (JSON.stringify(appData.config) === JSON.stringify(updated_config)) {
+      setModification({ status: 'No change', op: null, path: null, value: null, index: null });
+      return;
+    }
+    setModification({ status: 'Modified', op: 'replace', path: '/', value: updated_config, index: null });
+  };
+
+  const setModificationStatus = (status) => {
+    setModification({ status, op: null, path: null, value: null, index: null });
+  };
+
+  const [expandEditor, setExpandEditor] = useState(true);
+
+  const handleAppDataReceive = (newAppData) => {
+    setModificationStatus('No change');
+    setAppData(newAppData);
+    setExpandEditor(false);
+  };
+
   return (
-    <div className="config-container">
-      {/* Left Panel - Inputs & Submit Button */}
-      <div className="config-left">
-        <h4>Quick Settings</h4>
-        <input type="text" className="form-control mb-3" placeholder="Enter Value 1" />
-        <input type="text" className="form-control mb-3" placeholder="Enter Value 2" />
-        <button className="btn btn-primary w-100">Submit</button>
-      </div>
+    <div className="container-fluid mt-3">
+      <div className="row">
+        {/* Left Panel (SideBar) */}
+        <div className="col-md-3">
+          <ConfigSideBar
+            onAppDataReceive={handleAppDataReceive}
+            ConfigHash={appData.config_hash}
+            modificationStatus={modification.status}
+            modificationPath={modification.path}
+            modificationOp={modification.op}
+            modificationValue={modification.value}
+            modificationIndex={modification.index}
+          />
+        </div>
 
-      {/* Right Panel - Full Form */}
-      <div className="config-right">
-        <h4>Advanced Configuration</h4>
-        <form>
-          <div className="mb-3">
-            <label className="form-label">Setting 1</label>
-            <input type="text" className="form-control" placeholder="Enter Setting 1" />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Setting 2</label>
-            <input type="text" className="form-control" placeholder="Enter Setting 2" />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Setting 3</label>
-            <input type="text" className="form-control" placeholder="Enter Setting 3" />
-          </div>
-          <button type="submit" className="btn btn-success">Save Configuration</button>
-        </form>
+        {/* Right Panel (Editor) */}
+        <div className="col-md-9">
+          <Editor
+            schema={appData.schema}
+            config={appData.config}
+            onEditorChange={handleEditorChange}
+            onEditorError={(error) => setModificationStatus(error)}
+            replaceablePaths={appData.modifiable_paths.replaceable}
+            expandAll={expandEditor}
+          />
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default Config;
