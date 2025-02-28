@@ -6,7 +6,7 @@ import JSONEditor from 'jsoneditor';
 
 function JSONEditorWrapper({ json, schema, modes, mainMenuBar, statusBar, navigationBar, onEditable, onError, onChange, style, expandAll }) {
     const element = React.useRef();
-    const jsoneditor = React.useRef()
+    const jsoneditor = React.useRef();
     const onEditableRef = React.useRef();
     const onErrorRef = React.useRef();
     const onChangeRef = React.useRef();
