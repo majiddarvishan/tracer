@@ -1,25 +1,23 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import 'jsoneditor/dist/jsoneditor.css';
 import JSONEditor from 'jsoneditor';
 
 function JSONEditorWrapper({ json, schema, modes, mainMenuBar, statusBar, navigationBar, onEditable, onError, onChange, style, expandAll }) {
-    const element = React.useRef();
-    const jsoneditor = React.useRef();
-    const onEditableRef = React.useRef();
-    const onErrorRef = React.useRef();
-    const onChangeRef = React.useRef();
+    const element = useRef(null);
+    const jsoneditor = useRef(null);
+    const onEditableRef = useRef();
+    const onErrorRef = useRef();
+    const onChangeRef = useRef();
 
-    React.useEffect(() => {
+    useEffect(() => {
         onEditableRef.current = onEditable;
         onErrorRef.current = onError;
         onChangeRef.current = onChange;
     }, [onEditable, onError, onChange]);
 
-    React.useEffect(() => {
-        if (jsoneditor.current)
-            return;
+    useEffect(() => {
+        if (jsoneditor.current) return;
 
         const handleChange = () => {
             let json;
@@ -29,9 +27,8 @@ function JSONEditorWrapper({ json, schema, modes, mainMenuBar, statusBar, naviga
                 json = jsoneditor.current.get();
                 if (!jsoneditor.current.validateSchema(json))
                     error = 'Schema error';
-            }
-            catch (ex) {
-                error = 'Bad json';
+            } catch (ex) {
+                error = 'Bad JSON';
             }
 
             if (error)
@@ -40,11 +37,10 @@ function JSONEditorWrapper({ json, schema, modes, mainMenuBar, statusBar, naviga
                 onChangeRef.current(json);
         };
 
-        const handleEditable = (node) => {
-            return onEditableRef.current(node);
-        }
+        const handleEditable = (node) => onEditableRef.current(node);
 
         const options = {
+            // mode: modes[0] || 'form', // Default mode set explicitly
             enableSort: false,
             enableTransform: false,
             indentation: 4,
@@ -55,23 +51,26 @@ function JSONEditorWrapper({ json, schema, modes, mainMenuBar, statusBar, naviga
             onChange: handleChange,
             onEditable: handleEditable
         };
-        jsoneditor.current = new JSONEditor(element.current, options);
 
+        jsoneditor.current = new JSONEditor(element.current, options);
     }, [modes, mainMenuBar, statusBar, navigationBar]);
 
-    React.useEffect(() => {
-        jsoneditor.current.setSchema(schema);
+    useEffect(() => {
+        if (jsoneditor.current) {
+            jsoneditor.current.setSchema(schema);
+        }
     }, [schema]);
 
-    React.useEffect(() => {
-        jsoneditor.current.update(json);
-        if (expandAll && jsoneditor.current.getMode() !== 'code')
-            jsoneditor.current.expandAll();
+    useEffect(() => {
+        if (jsoneditor.current) {
+            jsoneditor.current.update(json);
+            if (expandAll && jsoneditor.current.getMode() !== 'code') {
+                jsoneditor.current.expandAll();
+            }
+        }
     }, [json, expandAll]);
 
-    return (
-        <div style={style} ref={element} />
-    );
+    return <div style={style} ref={element} />;
 }
 
 JSONEditorWrapper.defaultProps = {
