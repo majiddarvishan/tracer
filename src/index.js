@@ -16,3 +16,6 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+
+// npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
