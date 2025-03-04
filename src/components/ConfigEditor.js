@@ -27,14 +27,13 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
             <Tabs activeKey={activeTab} onSelect={(k) => setActiveTab(k)} className="mb-3">
                 <Tab eventKey="editor" title="Editor">
                     <JSONEditorWrapper
-                        schema={schema}
                         json={config}
-                        modes={['form', 'code']}
                         onChange={onEditorChange}
                         onError={onEditorError}
                         onEditable={isNodeEditable}
                         style={{ height: 850 }}
                         expandAll={expandAll}
+                        modes={['form', 'code']}
                     />
                 </Tab>
 
@@ -43,8 +42,6 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
                         json={schema}
                         modes={['code']}
                         onEditable={() => false}
-                        mainMenuBar={false}
-                        statusBar={false}
                         style={{ height: 850 }}
                     />
                 </Tab>
@@ -60,6 +57,15 @@ Editor.propTypes = {
     onEditorError: PropTypes.func,
     replaceablePaths: PropTypes.arrayOf(PropTypes.string),
     expandAll: PropTypes.bool,
+};
+
+Editor.defaultProps = {
+    schema: null,
+    config: {},
+    onEditorChange: () => {},
+    onEditorError: () => {},
+    replaceablePaths: [],
+    expandAll: false,
 };
 
 export default Editor;
