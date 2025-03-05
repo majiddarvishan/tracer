@@ -34,6 +34,7 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
                         style={{ height: 850 }}
                         expandAll={expandAll}
                         modes={['form', 'code']}
+                        showNavbar={true}
                     />
                 </Tab>
 
@@ -43,6 +44,8 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
                         modes={['code']}
                         onEditable={() => false}
                         style={{ height: 850 }}
+                        expandAll={true} // Always expanded for schema tab
+                        showNavbar={false}
                     />
                 </Tab>
             </Tabs>
