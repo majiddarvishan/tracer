@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Card } from 'react-bootstrap';
 import JSONEditorWrapper from './ConfigJsonEditorWrapper';
 
 function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorError, expandAll }) {
     const [activeTab, setActiveTab] = useState('editor');
+    const schemaTabRef = useRef(null);
 
     function isNodeEditable(node) {
         // If editor is in code mode, in that case everything is editable
@@ -21,6 +22,31 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
         return false;
     }
 
+    // Use effect to hide the navbar in the schema tab
+    useEffect(() => {
+        // Function to hide the navbar
+        const hideSchemaNavbar = () => {
+            if (schemaTabRef.current) {
+                // Find the navbar in the schema tab
+                const navbar = schemaTabRef.current.querySelector('.mb-3.d-flex.justify-content-between.align-items-center.p-2');
+                if (navbar) {
+                    navbar.style.display = 'none';
+                }
+
+                // Adjust the editor height to fill space
+                const editorDiv = schemaTabRef.current.querySelector('.monaco-editor');
+                if (editorDiv) {
+                    editorDiv.style.height = '100%';
+                }
+            }
+        };
+
+        // Add a small delay to ensure DOM is updated
+        if (activeTab === 'schema') {
+            setTimeout(hideSchemaNavbar, 50);
+        }
+    }, [activeTab]);
+
     return (
         <Card className="p-3">
             {/* Bootstrap Tabs for Editor & Schema */}
@@ -34,19 +60,18 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
                         style={{ height: 850 }}
                         expandAll={expandAll}
                         modes={['form', 'code']}
-                        showNavbar={true}
                     />
                 </Tab>
 
                 <Tab eventKey="schema" title="Schema">
-                    <JSONEditorWrapper
-                        json={schema}
-                        modes={['code']}
-                        onEditable={() => false}
-                        style={{ height: 850 }}
-                        expandAll={true} // Always expanded for schema tab
-                        showNavbar={false}
-                    />
+                    <div ref={schemaTabRef}>
+                        <JSONEditorWrapper
+                            json={schema}
+                            modes={['code']}
+                            onEditable={() => false}
+                            style={{ height: 850 }}
+                        />
+                    </div>
                 </Tab>
             </Tabs>
         </Card>

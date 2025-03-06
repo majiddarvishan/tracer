@@ -4,12 +4,14 @@ import { Tabs, Tab, Button, ButtonGroup, InputGroup, FormControl, Dropdown } fro
 import MonacoEditor from '@monaco-editor/react';
 import { JsonViewer } from '@textea/json-viewer';
 
-function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable, expandAll, modes = ['form', 'code'], showNavbar = true }) {
+function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable, expandAll, modes = ['form', 'code'] }) {
   const [activeView, setActiveView] = useState(modes.includes('form') ? "form" : "code");
   const [editorValue, setEditorValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [isExpanded, setIsExpanded] = useState(expandAll);
   const jsonContainerRef = useRef(null);
+  // Add a key to force re-render of the JsonViewer component
+  const [jsonViewerKey, setJsonViewerKey] = useState(0);
 
   useEffect(() => {
     // Update editor value when json prop changes
@@ -67,13 +69,17 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
     }
   };
 
-  // For schema tab when navbar is hidden, always use a default state of expanded
-  const effectiveIsExpanded = showNavbar ? isExpanded : true;
+  // Toggle expand/collapse and force re-render of JsonViewer
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+    // Increment key to force re-render of JsonViewer with new defaultInspectDepth
+    setJsonViewerKey(prevKey => prevKey + 1);
+  };
 
   // JsonViewer component theme and display settings
   const jsonViewerConfig = {
     editable: onEditable,
-    defaultInspectDepth: effectiveIsExpanded ? 99 : 1,
+    defaultInspectDepth: isExpanded ? 99 : 1,
     displayDataTypes: false,
     displayObjectSize: true,
     theme: {
@@ -93,23 +99,23 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
           style={{
             padding: "10px",
             background: "#f8f9fa",
-            borderRadius: showNavbar ? "0 0 5px 5px" : "5px",
-            maxHeight: style?.height ? (showNavbar ? style.height - 150 : style.height) : (showNavbar ? "600px" : "750px"),
+            borderRadius: "0 0 5px 5px",
+            maxHeight: style?.height ? style.height - 150 : "600px",
             overflow: "auto",
             border: "1px solid #dee2e6"
           }}
         >
-          <JsonViewer value={json} {...jsonViewerConfig} />
+          <JsonViewer
+            key={jsonViewerKey}
+            value={json}
+            {...jsonViewerConfig}
+          />
         </div>
       );
     }
 
     return (
-      <div style={{
-        height: style?.height ? (showNavbar ? style.height - 80 : style.height) : (showNavbar ? "400px" : "480px"),
-        border: "1px solid #ddd",
-        borderRadius: "5px"
-      }}>
+      <div style={{ height: style?.height ? style.height - 80 : "400px", border: "1px solid #ddd", borderRadius: "5px" }}>
         <MonacoEditor
           height="100%"
           defaultLanguage="json"
@@ -133,78 +139,77 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
 
   return (
     <div style={style || {}}>
-      {/* Navigation Bar - Only show if showNavbar is true */}
-      {showNavbar && (
-        <div className="mb-3 d-flex justify-content-between align-items-center p-2 bg-light border border-bottom-0 rounded-top">
-          <div className="d-flex align-items-center">
-            <ButtonGroup className="me-2">
-              <Button
-                variant="outline-secondary"
-                onClick={() => setIsExpanded(!isExpanded)}
-                title={isExpanded ? "Collapse All" : "Expand All"}
-              >
-                {isExpanded ? "Collapse" : "Expand"}
-              </Button>
-              <Button
-                variant="outline-secondary"
-                onClick={() => {
-                  try {
-                    const formatted = JSON.stringify(json, null, 2);
-                    setEditorValue(formatted);
-                    // Apply formatting to the JsonViewer
-                    setIsExpanded(true);
-                  } catch (error) {
-                    if (onError) onError("Format error: " + error.message);
-                  }
-                }}
-                title="Format JSON"
-              >
-                Format
-              </Button>
-            </ButtonGroup>
-
-            {/* View Dropdown */}
-            <Dropdown className="me-2">
-              <Dropdown.Toggle variant="outline-secondary" id="view-dropdown">
-                {activeView === 'form' ? 'Form View' : 'Code View'}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {modes.includes('form') && (
-                  <Dropdown.Item
-                    active={activeView === 'form'}
-                    onClick={() => setActiveView('form')}
-                  >
-                    Form View
-                  </Dropdown.Item>
-                )}
-                {modes.includes('code') && (
-                  <Dropdown.Item
-                    active={activeView === 'code'}
-                    onClick={() => setActiveView('code')}
-                  >
-                    Code View
-                  </Dropdown.Item>
-                )}
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-
-          <InputGroup style={{ width: '40%' }}>
-            <FormControl
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <Button variant="outline-secondary" onClick={handleSearch}>
-              Search
+      {/* Navigation Bar */}
+      <div className="mb-3 d-flex justify-content-between align-items-center p-2 bg-light border border-bottom-0 rounded-top">
+        <div className="d-flex align-items-center">
+          <ButtonGroup className="me-2">
+            <Button
+              variant="outline-secondary"
+              onClick={toggleExpand}
+              title={isExpanded ? "Collapse All" : "Expand All"}
+            >
+              {isExpanded ? "Collapse" : "Expand"}
             </Button>
-            <Button variant="outline-secondary" onClick={clearSearch}>
-              Clear
+            <Button
+              variant="outline-secondary"
+              onClick={() => {
+                try {
+                  const formatted = JSON.stringify(json, null, 2);
+                  setEditorValue(formatted);
+                  // Apply formatting to the JsonViewer
+                  setIsExpanded(true);
+                  setJsonViewerKey(prevKey => prevKey + 1); // Force re-render after formatting
+                } catch (error) {
+                  if (onError) onError("Format error: " + error.message);
+                }
+              }}
+              title="Format JSON"
+            >
+              Format
             </Button>
-          </InputGroup>
+          </ButtonGroup>
+
+          {/* View Dropdown */}
+          <Dropdown className="me-2">
+            <Dropdown.Toggle variant="outline-secondary" id="view-dropdown">
+              {activeView === 'form' ? 'Form View' : 'Code View'}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {modes.includes('form') && (
+                <Dropdown.Item
+                  active={activeView === 'form'}
+                  onClick={() => setActiveView('form')}
+                >
+                  Form View
+                </Dropdown.Item>
+              )}
+              {modes.includes('code') && (
+                <Dropdown.Item
+                  active={activeView === 'code'}
+                  onClick={() => setActiveView('code')}
+                >
+                  Code View
+                </Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
-      )}
+
+        <InputGroup style={{ width: '40%' }}>
+          <FormControl
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+          />
+          <Button variant="outline-secondary" onClick={handleSearch}>
+            Search
+          </Button>
+          <Button variant="outline-secondary" onClick={clearSearch}>
+            Clear
+          </Button>
+        </InputGroup>
+      </div>
 
       {/* Content View */}
       {renderView()}
@@ -221,7 +226,6 @@ JSONEditorWrapper.propTypes = {
   onEditable: PropTypes.func,
   expandAll: PropTypes.bool,
   modes: PropTypes.arrayOf(PropTypes.string),
-  showNavbar: PropTypes.bool
 };
 
 // Default props
@@ -231,8 +235,7 @@ JSONEditorWrapper.defaultProps = {
   onError: () => {},
   onEditable: () => false,
   expandAll: false,
-  modes: ['form', 'code'],
-  showNavbar: true
+  modes: ['form', 'code']
 };
 
 export default JSONEditorWrapper;
