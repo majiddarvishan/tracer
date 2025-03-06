@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, Form, Button, Alert, Spinner } from 'react-bootstrap';
-import JSONEditorWrapper from './ConfigJsonEditorWrapper';
+import { JsonViewer } from '@textea/json-viewer';
 
 function ConfigSideBar({ onAppDataReceive, ConfigHash, modificationStatus, modificationPath, modificationOp, modificationValue, modificationIndex }) {
     const [activeTab, setActiveTab] = useState('connection');
@@ -63,6 +63,20 @@ function ConfigSideBar({ onAppDataReceive, ConfigHash, modificationStatus, modif
         }
     };
 
+    // JsonViewer component theme and display settings
+    const jsonViewerConfig = {
+        editable: false,
+        defaultInspectDepth: expandView ? 99 : 1,
+        displayDataTypes: false,
+        displayObjectSize: true,
+        theme: {
+            scheme: 'default',
+            base00: '#f8f9fa',
+            backgroundColor: '#f8f9fa',
+            borderColor: '#e9ecef'
+        }
+    };
+
     return (
         <div className="config-sidebar">
             {/* Bootstrap Tabs for Connection & Modification */}
@@ -116,13 +130,32 @@ function ConfigSideBar({ onAppDataReceive, ConfigHash, modificationStatus, modif
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Value</Form.Label>
-                            <JSONEditorWrapper
-                                json={modificationValue}
-                                modes={['view']}
-                                mainMenuBar={false}
-                                navigationBar={false}
-                                expandAll={expandView}
-                            />
+                            {/* Simple clean container for JSON display */}
+                            <div
+                                className="json-viewer-container"
+                                style={{
+                                    border: "1px solid #dee2e6",
+                                    borderRadius: "4px",
+                                    padding: "10px",
+                                    backgroundColor: "#f8f9fa",
+                                    minHeight: "250px",
+                                    maxHeight: "350px",
+                                    overflow: "auto"
+                                }}
+                            >
+                                {/* Use JsonViewer directly instead of JSONEditorWrapper */}
+                                {modificationValue && (
+                                    <JsonViewer
+                                        value={modificationValue}
+                                        {...jsonViewerConfig}
+                                    />
+                                )}
+                                {!modificationValue && (
+                                    <div className="text-muted text-center py-5">
+                                        No modification value to display
+                                    </div>
+                                )}
+                            </div>
                         </Form.Group>
                         <Button
                             variant="success"
