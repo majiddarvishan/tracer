@@ -24,26 +24,18 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
 
     // Use effect to hide the navbar in the schema tab
     useEffect(() => {
-        // Function to hide the navbar
-        const hideSchemaNavbar = () => {
-            if (schemaTabRef.current) {
-                // Find the navbar in the schema tab
-                const navbar = schemaTabRef.current.querySelector('.mb-3.d-flex.justify-content-between.align-items-center.p-2');
-                if (navbar) {
-                    navbar.style.display = 'none';
+        if (activeTab === 'schema' && schemaTabRef.current) {
+            // Hide the navbar with CSS instead of relying on DOM manipulation
+            const style = document.createElement('style');
+            style.textContent = `
+                .schema-tab .mb-3.d-flex.justify-content-between.align-items-center.p-2.bg-light.border.border-bottom-0.rounded-top {
+                    display: none !important;
                 }
-
-                // Adjust the editor height to fill space
-                const editorDiv = schemaTabRef.current.querySelector('.monaco-editor');
-                if (editorDiv) {
-                    editorDiv.style.height = '100%';
+                .schema-tab .monaco-editor {
+                    height: 100% !important;
                 }
-            }
-        };
-
-        // Add a small delay to ensure DOM is updated
-        if (activeTab === 'schema') {
-            setTimeout(hideSchemaNavbar, 50);
+            `;
+            schemaTabRef.current.appendChild(style);
         }
     }, [activeTab]);
 
@@ -64,7 +56,7 @@ function Editor({ config, schema, replaceablePaths, onEditorChange, onEditorErro
                 </Tab>
 
                 <Tab eventKey="schema" title="Schema">
-                    <div ref={schemaTabRef}>
+                    <div ref={schemaTabRef} className="schema-tab">
                         <JSONEditorWrapper
                             json={schema}
                             modes={['code']}
