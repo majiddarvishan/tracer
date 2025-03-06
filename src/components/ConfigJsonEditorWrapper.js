@@ -184,7 +184,7 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
             {/* View Dropdown */}
             <Dropdown className="me-2">
               <Dropdown.Toggle variant="outline-secondary" id="view-dropdown">
-                {activeView === 'form' ? 'Form View' : 'Code View'}
+                {activeView === 'form' ? 'Form' : 'Code'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {modes.includes('form') && (
@@ -192,7 +192,7 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
                     active={activeView === 'form'}
                     onClick={() => setActiveView('form')}
                   >
-                    Form View
+                    Form
                   </Dropdown.Item>
                 )}
                 {modes.includes('code') && (
@@ -200,7 +200,7 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
                     active={activeView === 'code'}
                     onClick={() => setActiveView('code')}
                   >
-                    Code View
+                    Code
                   </Dropdown.Item>
                 )}
               </Dropdown.Menu>
