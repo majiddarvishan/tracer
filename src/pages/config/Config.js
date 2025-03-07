@@ -36,6 +36,7 @@ function Config() {
   };
 
   const handleEditorChange = (updated_config) => {
+    console.log("call handleEditorChange")
     function diff(a, b, path = "") {
       function is_object(v) {
         return Object.prototype.toString.call(v) === "[object Object]";

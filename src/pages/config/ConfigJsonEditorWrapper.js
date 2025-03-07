@@ -86,7 +86,16 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
 
   // JsonViewer component theme and display settings
   const jsonViewerConfig = {
-    editable: onEditable,
+    editable: (node) => {
+      // First check if onEditable is a function
+      if (typeof onEditable === 'function') {
+        const result = onEditable(node);
+        // Handle both boolean and object return types
+        return typeof result === 'object' ? result : { field: false, value: result };
+      }
+      // Handle boolean onEditable prop
+      return onEditable ? { field: false, value: true } : false;
+    },
     defaultInspectDepth: isExpanded ? 99 : 1,
     displayDataTypes: false,
     displayObjectSize: true,
@@ -95,6 +104,29 @@ function JSONEditorWrapper({ json, schema, onChange, onError, style, onEditable,
       base00: '#f8f9fa',
       backgroundColor: '#f8f9fa',
       borderColor: '#e9ecef'
+    },
+    onEdit: ({ value, previousValue, path }) => {
+      try {
+        // Create a deep copy of the current JSON
+        const updatedJson = JSON.parse(JSON.stringify(json));
+        
+        // Navigate to the parent of the edited node
+        const pathParts = path.split('.');
+        const lastPart = pathParts.pop();
+        let current = updatedJson;
+        
+        for (const part of pathParts) {
+          current = current[part];
+        }
+        
+        // Update the value
+        current[lastPart] = value;
+        
+        // Call onChange with the entire updated JSON
+        onChange(updatedJson);
+      } catch (error) {
+        if (onError) onError("Invalid edit: " + error.message);
+      }
     }
   };
 
