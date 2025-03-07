@@ -10,6 +10,8 @@
     padding-top: 20px; /* Space for the top of the sidebar */
     z-index: 1; /* Ensure it stays below the navbar and footer */
     border-right: 2px solid #ccc; /* Add vertical line */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .main-content {
@@ -18,6 +20,8 @@
     margin-bottom: 0; /* No offset needed here */
     flex-grow: 1; /* Ensure the main content takes up the remaining space */
     width: calc(100% - 200px); /* Ensure the main content fills the remaining width */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .nav-link {

@@ -6,7 +6,7 @@ import OMCIcon from '../assets/icons/omc-icon.png'; // Path to OMC icon
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg">
+    <nav className="navbar navbar-expand-lg fixed-top sticky-top">
       <div className="container-fluid">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img src={OMCIcon} alt="OMC Logo" width="40" height="40" className="me-2" />

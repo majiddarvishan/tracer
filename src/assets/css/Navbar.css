@@ -1,32 +1,48 @@
 .navbar {
-    z-index: 10; /* Ensure the navbar stays above the sidebar */
-    position: fixed; /* Fix the navbar to the top */
+    z-index: 1030; /* Increased z-index to ensure navbar stays above all content */
+    position: fixed; /* Keep fixed position */
     width: 100%; /* Full width */
     top: 0;
-    background-color: #0d6efd; /* Primary color */
-  }
+    background-color: #0d6efd;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-  .navbar-brand,
-  .navbar-nav .nav-link {
+.navbar-brand,
+.navbar-nav .nav-link {
     color: #ffffff; /* White text color */
     font-size: 1rem; /* Adjust font size */
-  }
+}
 
-  .navbar-brand:hover,
-  .navbar-nav .nav-link:hover {
+.navbar-brand:hover,
+.navbar-nav .nav-link:hover {
     color: rgb(151, 135, 150); /* Light hover color */
     opacity: 0.8; /* Slightly transparent */
     text-decoration: none; /* Remove underline */
-  }
+}
 
-  .navbar-toggler {
+.navbar-toggler {
     border: none; /* Remove border */
-  }
+}
 
-  .navbar-toggler-icon {
+.navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Custom icon color */
-  }
+}
 
 .navbar {
     background-color: #0d6efd !important; /* Set navbar background color */
+}
+
+/* Add padding to body to prevent content from being hidden under navbar */
+body {
+    padding-top: 56px; /* Match the navbar height */
+}
+
+/* Remove duplicate scrollbar rules since they're handled globally */
+
+/* Ensure navbar stays visible even on scroll */
+.navbar.sticky-top {
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
