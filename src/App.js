@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
+import Navbar from './layouts/Navbar';
+import Sidebar from './layouts/Sidebar';
 import Home from './components/Home';
-import Trace from './components/Trace';
-import Config from './components/Config';
-import Footer from './components/Footer';
+import Trace from './pages/trace/Trace';
+import Config from './pages/config/Config';
+import Footer from './layouts/Footer';
 import './assets/css/Navbar.css'; // Import the navbar CSS
 import './assets/css/Footer.css'; // Import the footer CSS
 

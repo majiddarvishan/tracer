@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MessageSquare, ListChecks } from "lucide-react";
 import Rules from "./Rules";
 import Messages from "./Messages";
-import "../assets/css/Trace.css";
+import '../../styles/layouts/trace/Trace.css'; // Import the trace CSS
 
 const Trace = () => {
   const [webSocket, setWebSocket] = useState(null);

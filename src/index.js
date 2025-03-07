@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './assets/css/Sidebar.css'; // Import the sidebar CSS
 import './assets/css/Home.css'; // Import the home CSS
-import './assets/css/Trace.css'; // Import the trace CSS
 import './assets/css/Navbar.css'; // Import the navbar CSS
 import './assets/css/Footer.css'; // Import the footer CSS
 // import './assets/css/custom.scss'; // Import custom styles
